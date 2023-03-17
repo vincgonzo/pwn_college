@@ -23,6 +23,6 @@ _start:
 .section .data
 sockaddr:
 	.2byte 2
-	.2byte 0x5000
+	.2byte 0x5000 # big endian value for port 80
 	.4byte 0
 	.8byte 0
