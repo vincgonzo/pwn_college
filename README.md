@@ -11,7 +11,7 @@ Two website necessary to construct asm programs with syscalls [Ray Chapman][rcha
 differents ways of compiling asm code
 
 ```sh
-as -o server.o server.s && ld -o server server.o
+as -o server.o server.s && ld -o server.o server
 ```
 or 
 ```sh
