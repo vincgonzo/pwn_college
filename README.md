@@ -17,7 +17,7 @@ or
 ```sh
 gcc --nostdlib -o out source.s
 ```
-It's also possible to get the value of constants throw iptyhon > pwn tools like this (example with AF_INET) :
+It's also possible to get the value of constants throw ipython > pwn tools like this (example with AF_INET) :
 
 ```python
 import pwn
