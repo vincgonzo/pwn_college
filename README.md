@@ -19,6 +19,11 @@ gcc --nostdlib -o out source.s
 ```
 It's also possible to get the value of constants throw ipython > pwn tools like this (example with AF_INET) :
 
+A usefull one line thing for embryo for example would be :
+```sh
+as -o embryo.o asm_script.s && ld -o embryo embryo.o && objcopy --dump-section .text=embryo.bin embryo.o && cat embryo.bin | /challenge/run
+```
+
 ```python
 import pwn
 print(int(pwn.constants.AF_INET))
