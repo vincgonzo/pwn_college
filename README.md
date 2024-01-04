@@ -29,6 +29,13 @@ import pwn
 print(int(pwn.constants.AF_INET))
 >> 2
 ```
+
+this could be helpfull 
+```bash
+# source ~/.gdbinit
+set disassembly-flavor intel
+source /opt/gef/gef.py
+```
 ## License
 
 GPL
