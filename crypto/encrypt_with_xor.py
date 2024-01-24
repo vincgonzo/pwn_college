@@ -1,5 +1,6 @@
 #!/bin/python
 import sys
+import argparse
 
 ENCRYPTION_KEY = "secretxorkey"
 ENCRYPTION_KEY_BYTES = b'secretxorkey'
@@ -28,21 +29,45 @@ def printCiphertext(ciphertext):
         hex_representation = ', 0x'.join(hex(x)[2:] for x in ciphertext)
 
         # Print the result
-        print('{ 0x' + hex_representation + ' };')
+        return '{ 0x' + hex_representation + ' };\n'
     else:
-	    print('{ 0x' + ', 0x'.join(hex(ord(x))[2:] for x in ciphertext) + ' };')
+	    return '{ 0x' + ', 0x'.join(hex(ord(x))[2:] for x in ciphertext) + ' };\n'
 
 
+def save_key_to_file(key, filename):
+    with open(filename, 'wb') as file:
+        file.write(key)
 
-try:
-    plaintext = open(sys.argv[1], "rb").read()
-except:
-    print("Usage: python encrypt_with_xor.py PAYLOAD_FILE > OUTPUT_FILE")
-    sys.exit()
+def main():
+    parser = argparse.ArgumentParser(description='===== XOR encryption script =====')
+    parser.add_argument('input_file', help='Path to the input file for encryption')
+    parser.add_argument('key', help='Key for XOR encryption')
+    parser.add_argument('-o', help='Path to the output file for ciphertext (optional)')
 
-if isinstance(plaintext, bytes):
-    ciphertext = xor(plaintext, ENCRYPTION_KEY_BYTES)
-else:
-    ciphertext = xor(plaintext, ENCRYPTION_KEY)
+    args = parser.parse_args()
 
-printCiphertext(ciphertext)
+    # Read the content of the input file
+    with open(args.input_file, 'rb') as file:
+        plaintext = file.read()
+
+    # XOR operation
+    key_bytes = args.key.encode('utf-8')
+    ciphertext = xor(plaintext, key_bytes)
+
+    # Save the key to a file
+    key_file = "key.txt"
+    save_key_to_file(key_bytes, key_file)
+    print(f"Key saved to {key_file}")
+
+    # Display the ciphertext or save to the output file
+    if args.o is None:
+        print("Cipher text:")
+        print(printCiphertext(ciphertext))
+    else:
+        with open(args.o, 'wb') as file:
+            file.write(printCiphertext(ciphertext).encode('utf-8'))
+        print(f"Ciphertext saved to {args.o}")
+
+
+if __name__ == "__main__":
+    main()
